@@ -1,5 +1,23 @@
 import { Repository } from "@/types";
 
+function generateStarHistory(currentStars: number, gained: number): { date: string; stars: number }[] {
+  const points = 12;
+  const history: { date: string; stars: number }[] = [];
+  const baseStars = currentStars - gained * 2;
+  for (let i = 0; i < points; i++) {
+    const d = new Date();
+    d.setMonth(d.getMonth() - (points - 1 - i));
+    const progress = i / (points - 1);
+    const noise = Math.floor(Math.random() * gained * 0.1);
+    history.push({
+      date: `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}`,
+      stars: Math.floor(baseStars + (currentStars - baseStars) * (progress ** 1.3) + noise),
+    });
+  }
+  history[history.length - 1].stars = currentStars;
+  return history;
+}
+
 export const MOCK_REPOS: Repository[] = [
   {
     id: 1,
@@ -29,6 +47,7 @@ export const MOCK_REPOS: Repository[] = [
     has_contributing: true,
     pr_merge_rate: 0.72,
     avg_issue_response_hours: 8,
+    star_history: generateStarHistory(24500, 1850),
   },
   {
     id: 2,
@@ -58,6 +77,7 @@ export const MOCK_REPOS: Repository[] = [
     has_contributing: true,
     pr_merge_rate: 0.85,
     avg_issue_response_hours: 4,
+    star_history: generateStarHistory(58000, 1200),
   },
   {
     id: 3,
@@ -86,6 +106,7 @@ export const MOCK_REPOS: Repository[] = [
     has_contributing: true,
     pr_merge_rate: 0.91,
     avg_issue_response_hours: 12,
+    star_history: generateStarHistory(345000, 450),
   },
   {
     id: 4,
@@ -115,6 +136,7 @@ export const MOCK_REPOS: Repository[] = [
     has_contributing: true,
     pr_merge_rate: 0.45,
     avg_issue_response_hours: 24,
+    star_history: generateStarHistory(42000, 780),
   },
   {
     id: 5,
@@ -144,6 +166,7 @@ export const MOCK_REPOS: Repository[] = [
     has_contributing: true,
     pr_merge_rate: 0.68,
     avg_issue_response_hours: 18,
+    star_history: generateStarHistory(82000, 920),
   },
   {
     id: 6,
@@ -173,6 +196,7 @@ export const MOCK_REPOS: Repository[] = [
     has_contributing: true,
     pr_merge_rate: 0.82,
     avg_issue_response_hours: 6,
+    star_history: generateStarHistory(15000, 340),
   },
   {
     id: 7,
@@ -202,6 +226,7 @@ export const MOCK_REPOS: Repository[] = [
     has_contributing: true,
     pr_merge_rate: 0.76,
     avg_issue_response_hours: 14,
+    star_history: generateStarHistory(38000, 520),
   },
   {
     id: 8,
@@ -231,5 +256,6 @@ export const MOCK_REPOS: Repository[] = [
     has_contributing: true,
     pr_merge_rate: 0.79,
     avg_issue_response_hours: 10,
+    star_history: generateStarHistory(16500, 290),
   },
 ];

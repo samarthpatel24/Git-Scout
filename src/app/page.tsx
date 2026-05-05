@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { TypewriterHero } from "@/components/TypewriterHero";
+import { FadeIn } from "@/components/FadeIn";
 import { ExplorePreview } from "@/components/ExplorePreview";
 
 const STATS = [
@@ -44,6 +46,9 @@ export default function Home() {
             <a href="#explore" className="hover:text-white transition-colors">
               Explore
             </a>
+            <a href="#how" className="hover:text-white transition-colors">
+              How it Works
+            </a>
             <a href="#about" className="hover:text-white transition-colors">
               About
             </a>
@@ -58,12 +63,12 @@ export default function Home() {
           >
             GitHub
           </a>
-          <a
-            href="#explore"
+          <Link
+            href="/explore"
             className="px-5 py-2.5 bg-[#1a1a1a] hover:bg-white hover:text-black border border-[#333333] rounded-lg transition-all duration-300"
           >
             Start Exploring
-          </a>
+          </Link>
         </div>
       </nav>
 
@@ -74,9 +79,7 @@ export default function Home() {
         </div>
 
         <div className="relative z-10 text-center">
-          <h1 className="text-[12vw] md:text-[10vw] font-bold text-white leading-[0.9] tracking-[-0.05em]">
-            /GitScout
-          </h1>
+          <TypewriterHero />
         </div>
 
         <div className="absolute bottom-12 left-8 md:left-12 flex items-center gap-5">
@@ -103,77 +106,84 @@ export default function Home() {
       {/* Stats Strip */}
       <section className="py-16 px-6 md:px-12 border-y border-[#1a1a1a]">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
-          {STATS.map((stat) => (
-            <div key={stat.label} className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-white tracking-tight">
-                {stat.value}
+          {STATS.map((stat, i) => (
+            <FadeIn key={stat.label} delay={i * 100}>
+              <div className="text-center">
+                <div className="text-4xl md:text-5xl font-bold text-white tracking-tight">
+                  {stat.value}
+                </div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#666666] mt-2">
+                  {stat.label}
+                </div>
               </div>
-              <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#666666] mt-2">
-                {stat.label}
-              </div>
-            </div>
+            </FadeIn>
           ))}
         </div>
       </section>
 
       {/* Features */}
       <section id="features" className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
-        <div className="flex items-center gap-3 mb-10">
-          <div className="w-2 h-2 rounded-full bg-[#FF6B50] animate-pulse" />
-          <span className="text-[10px] font-bold tracking-[0.3em] text-[#666666] uppercase">
-            Why settle for basic trending?
-          </span>
-        </div>
+        <FadeIn>
+          <div className="flex items-center gap-3 mb-10">
+            <div className="w-2 h-2 rounded-full bg-[#FF6B50] animate-pulse" />
+            <span className="text-[10px] font-bold tracking-[0.3em] text-[#666666] uppercase">
+              Why settle for basic trending?
+            </span>
+          </div>
+        </FadeIn>
 
-        <h2 className="text-4xl md:text-7xl font-medium leading-[1.05] tracking-tight text-white max-w-5xl mb-24">
-          Advanced filters that help you{" "}
-          <span className="text-[#666666]">find your next contribution</span>{" "}
-          in seconds.
-        </h2>
+        <FadeIn delay={100}>
+          <h2 className="text-4xl md:text-7xl font-medium leading-[1.05] tracking-tight text-white max-w-5xl mb-24">
+            Advanced filters that help you{" "}
+            <span className="text-[#666666]">find your next contribution</span>{" "}
+            in seconds.
+          </h2>
+        </FadeIn>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {FEATURES.map((feature) => (
-            <div
-              key={feature.title}
-              className={`${
-                feature.gradient
-                  ? "bg-gradient-to-br from-[#4F46E5] to-[#7C3AED]"
-                  : "bg-[#111111] hover:bg-[#161616]"
-              } rounded-[2.5rem] p-12 min-h-[480px] flex flex-col justify-between relative overflow-hidden group transition-all duration-500`}
-            >
-              <div className="flex justify-between items-start">
-                <div
-                  className={`text-[10px] font-bold px-4 py-2 rounded-full uppercase tracking-widest border ${
-                    feature.gradient
-                      ? "bg-white/10 text-white/80 border-white/20"
-                      : "bg-[#1a1a1a] text-[#888888] border-[#333333]"
-                  }`}
-                >
-                  {feature.badge}
+          {FEATURES.map((feature, i) => (
+            <FadeIn key={feature.title} delay={i * 150}>
+              <div
+                className={`${
+                  feature.gradient
+                    ? "bg-gradient-to-br from-[#4F46E5] to-[#7C3AED]"
+                    : "bg-[#111111] hover:bg-[#161616]"
+                } rounded-[2.5rem] p-12 min-h-[480px] flex flex-col justify-between relative overflow-hidden group transition-all duration-500`}
+              >
+                <div className="flex justify-between items-start">
+                  <div
+                    className={`text-[10px] font-bold px-4 py-2 rounded-full uppercase tracking-widest border ${
+                      feature.gradient
+                        ? "bg-white/10 text-white/80 border-white/20"
+                        : "bg-[#1a1a1a] text-[#888888] border-[#333333]"
+                    }`}
+                  >
+                    {feature.badge}
+                  </div>
+                </div>
+                <div className="mt-auto">
+                  <h3 className="text-4xl md:text-6xl font-semibold tracking-tighter mb-2 text-white">
+                    {feature.title}
+                  </h3>
+                  <h3
+                    className={`text-4xl md:text-6xl font-semibold tracking-tighter mb-6 ${
+                      feature.gradient
+                        ? "text-white/40"
+                        : "text-[#444444] group-hover:text-[#666666]"
+                    } transition-colors`}
+                  >
+                    {feature.subtitle}
+                  </h3>
+                  <p
+                    className={`text-sm leading-relaxed max-w-md ${
+                      feature.gradient ? "text-white/60" : "text-[#666666]"
+                    }`}
+                  >
+                    {feature.description}
+                  </p>
                 </div>
               </div>
-              <div className="mt-auto">
-                <h3 className="text-4xl md:text-6xl font-semibold tracking-tighter mb-2 text-white">
-                  {feature.title}
-                </h3>
-                <h3
-                  className={`text-4xl md:text-6xl font-semibold tracking-tighter mb-6 ${
-                    feature.gradient
-                      ? "text-white/40"
-                      : "text-[#444444] group-hover:text-[#666666]"
-                  } transition-colors`}
-                >
-                  {feature.subtitle}
-                </h3>
-                <p
-                  className={`text-sm leading-relaxed max-w-md ${
-                    feature.gradient ? "text-white/60" : "text-[#666666]"
-                  }`}
-                >
-                  {feature.description}
-                </p>
-              </div>
-            </div>
+            </FadeIn>
           ))}
         </div>
 
@@ -192,56 +202,52 @@ export default function Home() {
               title: "Rising Gems",
               desc: "Repos going from obscurity to trending. Low total stars, massive recent growth. True undiscovered projects.",
             },
-          ].map((item) => (
-            <div
-              key={item.title}
-              className="bg-[#0a0a0a] p-10 group hover:bg-[#111111] transition-colors duration-300"
-            >
-              <h4 className="text-lg font-semibold text-white mb-3 group-hover:text-[#FF6B50] transition-colors">
-                {item.title}
-              </h4>
-              <p className="text-sm text-[#666666] leading-relaxed">
-                {item.desc}
-              </p>
-            </div>
+          ].map((item, i) => (
+            <FadeIn key={item.title} delay={i * 100}>
+              <div className="bg-[#0a0a0a] p-10 group hover:bg-[#111111] transition-colors duration-300 h-full">
+                <h4 className="text-lg font-semibold text-white mb-3 group-hover:text-[#FF6B50] transition-colors">
+                  {item.title}
+                </h4>
+                <p className="text-sm text-[#666666] leading-relaxed">
+                  {item.desc}
+                </p>
+              </div>
+            </FadeIn>
           ))}
         </div>
       </section>
 
-      {/* Explore Section — Live Preview */}
+      {/* Explore Preview */}
       <section id="explore" className="py-32 px-6 md:px-12 border-t border-[#1a1a1a]">
-        <div className="max-w-[1400px] mx-auto">
-          <div className="flex justify-between items-end mb-12 border-b border-[#222222] pb-10">
-            <div>
-              <h2 className="text-xs font-bold tracking-[0.4em] uppercase text-[#FF6B50] mb-4">
-                Explore
-              </h2>
-              <p className="text-3xl md:text-5xl font-medium tracking-tight text-white">
-                Try it now.
-              </p>
+        <div className="max-w-4xl mx-auto">
+          <FadeIn>
+            <div className="flex justify-between items-end mb-12 border-b border-[#222222] pb-10">
+              <div>
+                <h2 className="text-xs font-bold tracking-[0.4em] uppercase text-[#FF6B50] mb-4">
+                  Explore
+                </h2>
+                <p className="text-3xl md:text-5xl font-medium tracking-tight text-white">
+                  Try it now.
+                </p>
+              </div>
             </div>
-            <Link
-              href="/explore"
-              className="hidden md:flex items-center gap-2 text-sm text-[#888888] hover:text-white transition-colors"
-            >
-              Open full page
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
-              </svg>
-            </Link>
-          </div>
+          </FadeIn>
 
-          <ExplorePreview />
+          <FadeIn delay={200}>
+            <ExplorePreview />
+          </FadeIn>
         </div>
       </section>
 
       {/* How it Works */}
-      <section className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
-        <div className="flex justify-between items-end mb-20 border-b border-[#222222] pb-10">
-          <h2 className="text-xs font-bold tracking-[0.4em] uppercase text-[#FF6B50]">
-            How It Works
-          </h2>
-        </div>
+      <section id="how" className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
+        <FadeIn>
+          <div className="flex justify-between items-end mb-20 border-b border-[#222222] pb-10">
+            <h2 className="text-xs font-bold tracking-[0.4em] uppercase text-[#FF6B50]">
+              How It Works
+            </h2>
+          </div>
+        </FadeIn>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {[
@@ -260,18 +266,20 @@ export default function Home() {
               title: "Start contributing",
               desc: "Find repos with good first issues, responsive maintainers, and high merge rates. Jump straight to the contribution guide.",
             },
-          ].map((item) => (
-            <div key={item.step} className="group">
-              <div className="text-6xl md:text-7xl font-black text-[#1a1a1a] group-hover:text-[#222222] transition-colors tracking-tighter mb-6">
-                {item.step}
+          ].map((item, i) => (
+            <FadeIn key={item.step} delay={i * 150}>
+              <div className="group">
+                <div className="text-6xl md:text-7xl font-black text-[#1a1a1a] group-hover:text-[#222222] transition-colors tracking-tighter mb-6">
+                  {item.step}
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-[#FF6B50] transition-colors">
+                  {item.title}
+                </h3>
+                <p className="text-sm text-[#666666] leading-relaxed">
+                  {item.desc}
+                </p>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-[#FF6B50] transition-colors">
-                {item.title}
-              </h3>
-              <p className="text-sm text-[#666666] leading-relaxed">
-                {item.desc}
-              </p>
-            </div>
+            </FadeIn>
           ))}
         </div>
       </section>

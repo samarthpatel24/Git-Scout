@@ -25,6 +25,7 @@ export interface Repository {
   has_contributing: boolean;
   pr_merge_rate: number;
   avg_issue_response_hours: number;
+  star_history: { date: string; stars: number }[];
 }
 
 export type TimePeriod = "daily" | "weekly" | "monthly" | "yearly";

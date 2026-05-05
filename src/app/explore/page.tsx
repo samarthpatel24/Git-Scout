@@ -2,17 +2,19 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { DEFAULT_FILTERS, Filters } from "@/types";
+import { DEFAULT_FILTERS, Filters, Repository } from "@/types";
 import { MOCK_REPOS } from "@/lib/mock-data";
 import { filterRepos } from "@/lib/filter-repos";
 import { SearchBar } from "@/components/SearchBar";
 import { FilterSidebar } from "@/components/FilterSidebar";
 import { FilterPresets } from "@/components/FilterPresets";
 import { RepoCard } from "@/components/RepoCard";
+import { RepoModal } from "@/components/RepoModal";
 
 export default function ExplorePage() {
   const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS);
   const [activePreset, setActivePreset] = useState("");
+  const [selectedRepo, setSelectedRepo] = useState<Repository | null>(null);
 
   const filteredRepos = useMemo(
     () => filterRepos(MOCK_REPOS, filters),
@@ -31,7 +33,6 @@ export default function ExplorePage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#050505]">
-      {/* Header */}
       <header className="sticky top-0 z-40 border-b border-[#1a1a1a] bg-[#050505]/80 backdrop-blur-xl">
         <div className="max-w-[1400px] mx-auto px-6 py-4">
           <div className="flex items-center justify-between gap-6">
@@ -49,7 +50,7 @@ export default function ExplorePage() {
             />
             <button
               onClick={handleReset}
-              className="text-xs font-medium text-[#888888] hover:text-white transition-colors uppercase tracking-widest whitespace-nowrap"
+              className="text-[10px] font-bold text-[#888888] hover:text-white transition-colors uppercase tracking-widest whitespace-nowrap"
             >
               Reset
             </button>
@@ -63,24 +64,25 @@ export default function ExplorePage() {
         </div>
       </header>
 
-      {/* Body */}
       <div className="flex flex-1 max-w-[1400px] mx-auto w-full px-6 py-8 gap-8">
         <FilterSidebar filters={filters} onChange={setFilters} />
 
         <main className="flex-1 min-w-0">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <div className="w-1.5 h-1.5 rounded-full bg-[#FF6B50] animate-pulse" />
-              <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#666666]">
-                <span className="text-white">{filteredRepos.length}</span>{" "}
-                repositories
-              </p>
-            </div>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-1.5 h-1.5 rounded-full bg-[#FF6B50] animate-pulse" />
+            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#666666]">
+              <span className="text-white">{filteredRepos.length}</span>{" "}
+              repositories
+            </p>
           </div>
 
           <div className="space-y-3">
             {filteredRepos.map((repo) => (
-              <RepoCard key={repo.id} repo={repo} />
+              <RepoCard
+                key={repo.id}
+                repo={repo}
+                onClick={() => setSelectedRepo(repo)}
+              />
             ))}
             {filteredRepos.length === 0 && (
               <div className="text-center py-24 rounded-[2rem] bg-[#111111] border border-[#222222]">
@@ -101,6 +103,10 @@ export default function ExplorePage() {
           </div>
         </main>
       </div>
+
+      {selectedRepo && (
+        <RepoModal repo={selectedRepo} onClose={() => setSelectedRepo(null)} />
+      )}
     </div>
   );
 }
