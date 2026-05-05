@@ -1,7 +1,36 @@
 import { Repository, Filters } from "@/types";
 
-export function filterRepos(repos: Repository[], filters: Filters): Repository[] {
-  let result = repos;
+const DOMAIN_KEYWORDS: Record<string, string[]> = {
+  "AI / Machine Learning": ["machine-learning", "deep-learning", "ai", "ml", "neural-network", "nlp", "computer-vision", "tensorflow", "pytorch", "llm", "gpt", "transformer"],
+  "Web Development": ["web", "frontend", "backend", "react", "vue", "angular", "nextjs", "nodejs", "express", "django", "flask", "rails", "html", "css", "javascript", "typescript"],
+  "Mobile": ["mobile", "android", "ios", "react-native", "flutter", "swift", "kotlin", "swiftui", "jetpack-compose"],
+  "DevOps / Infrastructure": ["devops", "docker", "kubernetes", "k8s", "ci-cd", "terraform", "ansible", "aws", "gcp", "azure", "infrastructure", "cloud", "monitoring"],
+  "Security": ["security", "cybersecurity", "pentest", "vulnerability", "encryption", "authentication", "oauth", "firewall", "malware"],
+  "Data Science": ["data-science", "data-analysis", "pandas", "numpy", "jupyter", "visualization", "statistics", "analytics", "data-engineering", "etl"],
+  "Game Development": ["game", "gamedev", "unity", "unreal", "godot", "game-engine", "2d", "3d", "opengl", "vulkan"],
+  "Blockchain / Web3": ["blockchain", "web3", "ethereum", "solidity", "crypto", "defi", "nft", "smart-contract", "solana"],
+  "CLI Tools": ["cli", "command-line", "terminal", "shell", "bash", "console", "tui"],
+  "Desktop Apps": ["desktop", "electron", "tauri", "gtk", "qt", "winforms", "wpf", "gui"],
+  "Embedded / IoT": ["embedded", "iot", "arduino", "raspberry-pi", "firmware", "rtos", "microcontroller"],
+  "Databases": ["database", "sql", "nosql", "mongodb", "postgresql", "mysql", "redis", "sqlite", "orm"],
+  "Networking": ["networking", "http", "grpc", "websocket", "tcp", "proxy", "vpn", "dns", "protocol"],
+  "Testing": ["testing", "test", "unit-test", "e2e", "cypress", "jest", "selenium", "qa", "automation"],
+};
+
+function matchesDomain(repo: Repository, domain: string): boolean {
+  const keywords = DOMAIN_KEYWORDS[domain];
+  if (!keywords) return true;
+  const searchable = [
+    ...repo.topics.map((t) => t.toLowerCase()),
+    repo.description?.toLowerCase() || "",
+    repo.full_name.toLowerCase(),
+  ].join(" ");
+  return keywords.some((kw) => searchable.includes(kw));
+}
+
+export function filterRepos(repos: Repository[], filters: Filters, serverFiltered = false): Repository[] {
+  if (!Array.isArray(repos)) return [];
+  let result = [...repos];
 
   if (filters.search) {
     const q = filters.search.toLowerCase();
@@ -13,16 +42,26 @@ export function filterRepos(repos: Repository[], filters: Filters): Repository[]
     );
   }
 
-  if (filters.language) {
-    result = result.filter((r) => r.language === filters.language);
-  }
+  if (!serverFiltered) {
+    if (filters.language) {
+      result = result.filter(
+        (r) => r.language?.toLowerCase() === filters.language.toLowerCase()
+      );
+    }
 
-  if (filters.starsMin > 0) {
-    result = result.filter((r) => r.stars >= filters.starsMin);
-  }
+    if (filters.starsMin > 0) {
+      result = result.filter((r) => r.stars >= filters.starsMin);
+    }
 
-  if (filters.starsMax > 0) {
-    result = result.filter((r) => r.stars <= filters.starsMax);
+    if (filters.starsMax > 0) {
+      result = result.filter((r) => r.stars <= filters.starsMax);
+    }
+
+    if (filters.license) {
+      result = result.filter(
+        (r) => r.license?.toLowerCase() === filters.license.toLowerCase()
+      );
+    }
   }
 
   if (filters.forksMin > 0) {
@@ -43,8 +82,8 @@ export function filterRepos(repos: Repository[], filters: Filters): Repository[]
     result = result.filter((r) => new Date(r.pushed_at) >= date);
   }
 
-  if (filters.license) {
-    result = result.filter((r) => r.license === filters.license);
+  if (filters.domain) {
+    result = result.filter((r) => matchesDomain(r, filters.domain));
   }
 
   if (filters.hasGoodFirstIssues) {

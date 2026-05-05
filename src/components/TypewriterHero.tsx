@@ -40,7 +40,7 @@ export function TypewriterHero() {
       {displayed}
       {showDot && (
         <span
-          className="inline-block w-[0.08em] h-[0.08em] bg-white ml-[0.06em] mb-[0.08em] align-baseline transition-opacity duration-100"
+          className="inline-block w-[0.1em] h-[0.1em] bg-white ml-[0.04em] align-baseline transition-opacity duration-100"
           style={{ opacity: dotBlink ? 1 : 0.15 }}
         />
       )}

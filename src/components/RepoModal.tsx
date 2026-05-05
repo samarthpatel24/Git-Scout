@@ -2,6 +2,7 @@
 
 import { Repository } from "@/types";
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 import {
   ResponsiveContainer,
   AreaChart,
@@ -68,7 +69,7 @@ export function RepoModal({
     };
   }, [onClose]);
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-8">
       {/* Backdrop */}
       <div
@@ -122,7 +123,7 @@ export function RepoModal({
           </div>
           <div className="h-48 bg-[#111111] rounded-2xl p-4 border border-[#1a1a1a]">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={repo.star_history}>
+              <AreaChart data={repo.star_history || []}>
                 <defs>
                   <linearGradient id="starGrad" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor="#FF6B50" stopOpacity={0.3} />
@@ -267,6 +268,7 @@ export function RepoModal({
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

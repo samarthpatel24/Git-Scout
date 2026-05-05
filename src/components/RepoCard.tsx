@@ -41,18 +41,21 @@ function getLanguageColor(lang: string): string {
 export function RepoCard({
   repo,
   onClick,
+  index = 0,
 }: {
   repo: Repository;
   onClick: () => void;
+  index?: number;
 }) {
   const [owner, name] = repo.full_name.split("/");
 
   return (
     <div
       onClick={onClick}
-      className="group block cursor-pointer"
+      className="group block cursor-pointer animate-[fadeSlideIn_0.4s_ease_both]"
+      style={{ animationDelay: `${index * 50}ms` }}
     >
-      <div className="bg-[#111111] rounded-2xl p-6 border border-transparent hover:border-[#333333] hover:bg-[#161616] transition-all duration-300">
+      <div className="bg-[#111111] rounded-2xl p-6 border border-transparent hover:border-[#333333] hover:bg-[#161616] transition-all duration-300 hover:translate-x-1">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2.5 mb-2">
