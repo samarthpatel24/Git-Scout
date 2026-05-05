@@ -25,6 +25,12 @@ function getHealthColor(score: number): string {
   return "text-red-500";
 }
 
+function formatDate(dateStr: string): string {
+  const d = new Date(dateStr);
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  return `${months[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
+}
+
 function getLanguageColor(lang: string): string {
   const colors: Record<string, string> = {
     TypeScript: "bg-blue-500",
@@ -129,7 +135,7 @@ export function RepoCard({ repo }: { repo: Repository }) {
         )}
         <span className="flex items-center gap-1">
           <Clock className="w-3.5 h-3.5" />
-          {new Date(repo.pushed_at).toLocaleDateString()}
+          {formatDate(repo.pushed_at)}
         </span>
         <span
           className={`flex items-center gap-1 ml-auto ${getHealthColor(repo.health_score)}`}
