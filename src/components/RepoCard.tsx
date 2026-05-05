@@ -2,7 +2,6 @@
 
 import { Repository } from "@/types";
 import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
 import {
   Star,
   GitFork,
@@ -10,6 +9,7 @@ import {
   TrendingUp,
   Heart,
   CircleDot,
+  ExternalLink,
 } from "lucide-react";
 
 function formatNumber(n: number): string {
@@ -18,69 +18,66 @@ function formatNumber(n: number): string {
   return n.toString();
 }
 
-function getHealthColor(score: number): string {
-  if (score >= 80) return "text-green-500";
-  if (score >= 60) return "text-yellow-500";
-  if (score >= 40) return "text-orange-500";
-  return "text-red-500";
-}
-
 function formatDate(dateStr: string): string {
   const d = new Date(dateStr);
   const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   return `${months[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
 }
 
+function getHealthColor(score: number): string {
+  if (score >= 80) return "text-emerald-400";
+  if (score >= 60) return "text-yellow-400";
+  if (score >= 40) return "text-orange-400";
+  return "text-red-400";
+}
+
 function getLanguageColor(lang: string): string {
   const colors: Record<string, string> = {
-    TypeScript: "bg-blue-500",
-    JavaScript: "bg-yellow-400",
-    Python: "bg-green-500",
-    Rust: "bg-orange-600",
-    Go: "bg-cyan-500",
-    Java: "bg-red-500",
-    "C++": "bg-pink-500",
-    Ruby: "bg-red-600",
-    Swift: "bg-orange-500",
-    Kotlin: "bg-purple-500",
-    "C#": "bg-green-600",
-    PHP: "bg-indigo-400",
-    Dart: "bg-sky-500",
+    TypeScript: "bg-blue-400",
+    JavaScript: "bg-yellow-300",
+    Python: "bg-emerald-400",
+    Rust: "bg-orange-400",
+    Go: "bg-cyan-400",
+    Java: "bg-red-400",
+    "C++": "bg-pink-400",
+    Ruby: "bg-red-500",
+    Swift: "bg-orange-300",
+    Kotlin: "bg-purple-400",
+    "C#": "bg-green-400",
+    PHP: "bg-indigo-300",
+    Dart: "bg-sky-400",
   };
-  return colors[lang] || "bg-gray-400";
+  return colors[lang] || "bg-zinc-400";
 }
 
 export function RepoCard({ repo }: { repo: Repository }) {
   const [owner, name] = repo.full_name.split("/");
 
   return (
-    <Card className="p-5 hover:shadow-md transition-shadow border border-zinc-200 dark:border-zinc-800">
+    <div className="group relative rounded-xl border border-border/60 bg-card/50 backdrop-blur-sm p-5 transition-all duration-200 hover:border-primary/30 hover:bg-card/80 hover:shadow-lg hover:shadow-primary/5">
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2 mb-1.5">
             {repo.language && (
               <span
-                className={`w-3 h-3 rounded-full ${getLanguageColor(repo.language)}`}
+                className={`w-2.5 h-2.5 rounded-full ${getLanguageColor(repo.language)} ring-2 ring-background`}
               />
             )}
+            <span className="text-sm text-muted-foreground">
+              {owner}
+            </span>
+            <span className="text-muted-foreground/40">/</span>
             <a
               href={`https://github.com/${repo.full_name}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200 truncate"
+              className="text-base font-semibold text-foreground hover:text-primary transition-colors inline-flex items-center gap-1.5"
             >
-              {owner} /
+              {name}
+              <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-50 transition-opacity" />
             </a>
           </div>
-          <a
-            href={`https://github.com/${repo.full_name}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 hover:underline"
-          >
-            {name}
-          </a>
-          <p className="mt-1.5 text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2">
+          <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2 mt-1">
             {repo.description}
           </p>
 
@@ -89,28 +86,28 @@ export function RepoCard({ repo }: { repo: Repository }) {
               <Badge
                 key={topic}
                 variant="secondary"
-                className="text-xs font-normal"
+                className="text-xs font-normal bg-secondary/80 hover:bg-secondary text-secondary-foreground/80"
               >
                 {topic}
               </Badge>
             ))}
             {repo.topics.length > 4 && (
-              <Badge variant="secondary" className="text-xs font-normal">
+              <Badge variant="secondary" className="text-xs font-normal opacity-60">
                 +{repo.topics.length - 4}
               </Badge>
             )}
           </div>
         </div>
 
-        <div className="flex flex-col items-end gap-1 shrink-0">
-          <div className="flex items-center gap-1 text-sm font-medium text-green-600">
+        <div className="flex flex-col items-end gap-2 shrink-0">
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 text-sm font-medium">
             <TrendingUp className="w-3.5 h-3.5" />
-            <span>+{formatNumber(repo.stars_gained)}</span>
+            +{formatNumber(repo.stars_gained)}
           </div>
           {repo.good_first_issue_count > 0 && (
             <Badge
               variant="outline"
-              className="text-xs text-emerald-600 border-emerald-300"
+              className="text-xs text-sky-400 border-sky-400/30 bg-sky-400/5"
             >
               {repo.good_first_issue_count} good first issues
             </Badge>
@@ -118,32 +115,32 @@ export function RepoCard({ repo }: { repo: Repository }) {
         </div>
       </div>
 
-      <div className="flex items-center gap-4 mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
-        <span className="flex items-center gap-1">
-          <Star className="w-3.5 h-3.5" />
+      <div className="flex items-center gap-5 mt-4 pt-3.5 border-t border-border/40 text-xs text-muted-foreground">
+        <span className="flex items-center gap-1.5">
+          <Star className="w-3.5 h-3.5 text-yellow-400/70" />
           {formatNumber(repo.stars)}
         </span>
-        <span className="flex items-center gap-1">
+        <span className="flex items-center gap-1.5">
           <GitFork className="w-3.5 h-3.5" />
           {formatNumber(repo.forks)}
         </span>
         {repo.language && (
-          <span className="flex items-center gap-1">
+          <span className="flex items-center gap-1.5">
             <CircleDot className="w-3.5 h-3.5" />
             {repo.language}
           </span>
         )}
-        <span className="flex items-center gap-1">
+        <span className="flex items-center gap-1.5">
           <Clock className="w-3.5 h-3.5" />
           {formatDate(repo.pushed_at)}
         </span>
         <span
-          className={`flex items-center gap-1 ml-auto ${getHealthColor(repo.health_score)}`}
+          className={`flex items-center gap-1.5 ml-auto font-medium ${getHealthColor(repo.health_score)}`}
         >
           <Heart className="w-3.5 h-3.5" />
-          {repo.health_score}% health
+          {repo.health_score}%
         </span>
       </div>
-    </Card>
+    </div>
   );
 }

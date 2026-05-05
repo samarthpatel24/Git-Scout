@@ -24,22 +24,22 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
   }
 
   return (
-    <aside className="w-72 shrink-0 space-y-5 overflow-y-auto max-h-[calc(100vh-8rem)] pr-2">
-      <div>
-        <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 mb-3">
-          Standard Filters
+    <aside className="w-72 shrink-0 space-y-5 overflow-y-auto max-h-[calc(100vh-10rem)] pr-3 scrollbar-thin">
+      <div className="rounded-xl border border-border/50 bg-card/30 backdrop-blur-sm p-4">
+        <h3 className="text-xs font-semibold uppercase tracking-widest text-primary mb-4">
+          Filters
         </h3>
 
         <div className="space-y-4">
           <div>
-            <Label className="text-xs mb-1.5">Language</Label>
+            <Label className="text-xs text-muted-foreground mb-1.5">Language</Label>
             <Select
               value={filters.language || "Any"}
               onValueChange={(v) =>
                 update({ language: v === "Any" ? "" : v ?? "" })
               }
             >
-              <SelectTrigger className="h-8 text-sm">
+              <SelectTrigger className="h-8 text-sm bg-background/50">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -53,14 +53,14 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
           </div>
 
           <div>
-            <Label className="text-xs mb-1.5">Time Period</Label>
+            <Label className="text-xs text-muted-foreground mb-1.5">Time Period</Label>
             <Select
               value={filters.timePeriod}
               onValueChange={(v) =>
                 update({ timePeriod: (v ?? "weekly") as Filters["timePeriod"] })
               }
             >
-              <SelectTrigger className="h-8 text-sm">
+              <SelectTrigger className="h-8 text-sm bg-background/50">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -74,10 +74,10 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
 
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <Label className="text-xs mb-1.5">Stars Min</Label>
+              <Label className="text-xs text-muted-foreground mb-1.5">Stars Min</Label>
               <Input
                 type="number"
-                className="h-8 text-sm"
+                className="h-8 text-sm bg-background/50"
                 placeholder="0"
                 value={filters.starsMin || ""}
                 onChange={(e) =>
@@ -86,10 +86,10 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
               />
             </div>
             <div>
-              <Label className="text-xs mb-1.5">Stars Max</Label>
+              <Label className="text-xs text-muted-foreground mb-1.5">Stars Max</Label>
               <Input
                 type="number"
-                className="h-8 text-sm"
+                className="h-8 text-sm bg-background/50"
                 placeholder="Any"
                 value={filters.starsMax || ""}
                 onChange={(e) =>
@@ -101,10 +101,10 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
 
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <Label className="text-xs mb-1.5">Forks Min</Label>
+              <Label className="text-xs text-muted-foreground mb-1.5">Forks Min</Label>
               <Input
                 type="number"
-                className="h-8 text-sm"
+                className="h-8 text-sm bg-background/50"
                 placeholder="0"
                 value={filters.forksMin || ""}
                 onChange={(e) =>
@@ -113,10 +113,10 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
               />
             </div>
             <div>
-              <Label className="text-xs mb-1.5">Forks Max</Label>
+              <Label className="text-xs text-muted-foreground mb-1.5">Forks Max</Label>
               <Input
                 type="number"
-                className="h-8 text-sm"
+                className="h-8 text-sm bg-background/50"
                 placeholder="Any"
                 value={filters.forksMax || ""}
                 onChange={(e) =>
@@ -127,34 +127,34 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
           </div>
 
           <div>
-            <Label className="text-xs mb-1.5">Created After</Label>
+            <Label className="text-xs text-muted-foreground mb-1.5">Created After</Label>
             <Input
               type="date"
-              className="h-8 text-sm"
+              className="h-8 text-sm bg-background/50"
               value={filters.createdAfter}
               onChange={(e) => update({ createdAfter: e.target.value })}
             />
           </div>
 
           <div>
-            <Label className="text-xs mb-1.5">Updated After</Label>
+            <Label className="text-xs text-muted-foreground mb-1.5">Updated After</Label>
             <Input
               type="date"
-              className="h-8 text-sm"
+              className="h-8 text-sm bg-background/50"
               value={filters.updatedAfter}
               onChange={(e) => update({ updatedAfter: e.target.value })}
             />
           </div>
 
           <div>
-            <Label className="text-xs mb-1.5">License</Label>
+            <Label className="text-xs text-muted-foreground mb-1.5">License</Label>
             <Select
               value={filters.license || "Any"}
               onValueChange={(v) =>
                 update({ license: v === "Any" ? "" : v ?? "" })
               }
             >
-              <SelectTrigger className="h-8 text-sm">
+              <SelectTrigger className="h-8 text-sm bg-background/50">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -168,14 +168,14 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
           </div>
 
           <div>
-            <Label className="text-xs mb-1.5">Sort By</Label>
+            <Label className="text-xs text-muted-foreground mb-1.5">Sort By</Label>
             <Select
               value={filters.sortBy}
               onValueChange={(v) =>
                 update({ sortBy: (v ?? "stars_gained") as Filters["sortBy"] })
               }
             >
-              <SelectTrigger className="h-8 text-sm">
+              <SelectTrigger className="h-8 text-sm bg-background/50">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -193,23 +193,21 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
         </div>
       </div>
 
-      <Separator />
-
-      <div>
-        <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 mb-3">
-          Advanced Filters
+      <div className="rounded-xl border border-border/50 bg-card/30 backdrop-blur-sm p-4">
+        <h3 className="text-xs font-semibold uppercase tracking-widest text-chart-3 mb-4">
+          Advanced
         </h3>
 
         <div className="space-y-4">
           <div>
-            <Label className="text-xs mb-1.5">Domain / Field</Label>
+            <Label className="text-xs text-muted-foreground mb-1.5">Domain / Field</Label>
             <Select
               value={filters.domain || "Any"}
               onValueChange={(v) =>
                 update({ domain: v === "Any" ? "" : v ?? "" })
               }
             >
-              <SelectTrigger className="h-8 text-sm">
+              <SelectTrigger className="h-8 text-sm bg-background/50">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -223,7 +221,7 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
           </div>
 
           <div>
-            <Label className="text-xs mb-1.5">Maturity</Label>
+            <Label className="text-xs text-muted-foreground mb-1.5">Maturity</Label>
             <Select
               value={filters.maturity || "any"}
               onValueChange={(v) =>
@@ -232,7 +230,7 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
                 })
               }
             >
-              <SelectTrigger className="h-8 text-sm">
+              <SelectTrigger className="h-8 text-sm bg-background/50">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -246,7 +244,7 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
           </div>
 
           <div>
-            <Label className="text-xs mb-1.5">Activity Health</Label>
+            <Label className="text-xs text-muted-foreground mb-1.5">Activity Health</Label>
             <Select
               value={filters.health || "any"}
               onValueChange={(v) =>
@@ -255,7 +253,7 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
                 })
               }
             >
-              <SelectTrigger className="h-8 text-sm">
+              <SelectTrigger className="h-8 text-sm bg-background/50">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -268,8 +266,10 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
             </Select>
           </div>
 
+          <Separator className="opacity-30" />
+
           <div className="space-y-3">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5">
               <Checkbox
                 id="good-first-issues"
                 checked={filters.hasGoodFirstIssues}
@@ -277,12 +277,12 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
                   update({ hasGoodFirstIssues: !!checked })
                 }
               />
-              <Label htmlFor="good-first-issues" className="text-sm">
+              <Label htmlFor="good-first-issues" className="text-sm text-muted-foreground cursor-pointer">
                 Has Good First Issues
               </Label>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5">
               <Checkbox
                 id="beginner-friendly"
                 checked={filters.beginnerFriendly}
@@ -290,12 +290,12 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
                   update({ beginnerFriendly: !!checked })
                 }
               />
-              <Label htmlFor="beginner-friendly" className="text-sm">
+              <Label htmlFor="beginner-friendly" className="text-sm text-muted-foreground cursor-pointer">
                 Beginner Friendly
               </Label>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5">
               <Checkbox
                 id="rising"
                 checked={filters.risingFromObscurity}
@@ -303,7 +303,7 @@ export function FilterSidebar({ filters, onChange }: FilterSidebarProps) {
                   update({ risingFromObscurity: !!checked })
                 }
               />
-              <Label htmlFor="rising" className="text-sm">
+              <Label htmlFor="rising" className="text-sm text-muted-foreground cursor-pointer">
                 Rising From Obscurity
               </Label>
             </div>
