@@ -41,7 +41,7 @@ export default function Home() {
               G.
             </div>
           </Link>
-          <div className="hidden lg:flex items-center gap-8 text-[#888888]">
+          <div className="hidden lg:flex items-center gap-8 text-[#888888] text-lg">
             <a href="#features" className="hover:text-white transition-colors">
               Features
             </a>

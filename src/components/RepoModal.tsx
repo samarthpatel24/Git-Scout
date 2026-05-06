@@ -155,6 +155,7 @@ export function RepoModal({
                   tickLine={false}
                   tickFormatter={(v) => formatNumber(v)}
                   width={45}
+                  domain={[(dataMin: number) => Math.floor(dataMin * 0.9), (dataMax: number) => Math.ceil(dataMax * 1.02)]}
                 />
                 <Tooltip
                   contentStyle={{

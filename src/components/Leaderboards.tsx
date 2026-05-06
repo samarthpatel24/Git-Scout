@@ -114,7 +114,7 @@ export function Leaderboards({
   const [risingPeriod, setRisingPeriod] = useState<Period>("daily");
   const [contribPeriod, setContribPeriod] = useState<Period>("weekly");
   const [rising, setRising] = useState<Repository[]>([]);
-  const [contributors, setContributors] = useState<Repository[]>([]);
+  const [contributors, setContributors] = useState<{ repo: Repository; commits: number }[]>([]);
   const [loadingRising, setLoadingRising] = useState(true);
   const [loadingContrib, setLoadingContrib] = useState(true);
 
@@ -137,19 +137,20 @@ export function Leaderboards({
   const fetchContrib = useCallback(async (period: Period) => {
     setLoadingContrib(true);
     try {
-      const res = await fetch(`/api/repos?period=${period}&starsMin=500&starsMax=100000&perPage=30&sort=updated`);
-      if (res.ok) {
-        const data = await res.json();
-        const sorted = (data.items || [])
-          .filter((r: Repository) => r.forks > 10)
-          .sort((a: Repository, b: Repository) => {
-            const aRatio = a.forks / Math.max(1, a.stars);
-            const bRatio = b.forks / Math.max(1, b.stars);
-            return bRatio - aRatio;
-          })
-          .slice(0, 5);
-        setContributors(sorted);
-      }
+      const repoRes = await fetch(`/api/repos?period=${period}&starsMin=1000&starsMax=50000&perPage=15&sort=updated`);
+      if (!repoRes.ok) { setLoadingContrib(false); return; }
+      const repoData = await repoRes.json();
+      const repos: Repository[] = (repoData.items || []).filter((r: Repository) => r.forks > 5);
+      const repoNames = repos.map((r) => r.full_name).join(",");
+      const countRes = await fetch(`/api/commit-counts?repos=${encodeURIComponent(repoNames)}&period=${period}`);
+      if (!countRes.ok) { setLoadingContrib(false); return; }
+      const { counts } = await countRes.json();
+      const withCommits = repos
+        .map((r) => ({ repo: r, commits: (counts[r.full_name] as number) || 0 }))
+        .filter((e) => e.commits > 0)
+        .sort((a, b) => b.commits - a.commits)
+        .slice(0, 5);
+      setContributors(withCommits);
     } catch { /* silent */ }
     setLoadingContrib(false);
   }, []);
@@ -160,7 +161,7 @@ export function Leaderboards({
   return (
     <aside className="hidden xl:flex flex-col gap-6 w-[340px] shrink-0">
       {/* Fastest Rising */}
-      <div className="bg-[#0a0a0a] border border-[#1a1a1a] rounded-2xl p-4 sticky top-[140px]">
+      <div className="bg-[#0a0a0a] border border-[#1a1a1a] rounded-2xl p-4">
         <div className="flex items-center justify-between mb-5 px-1 pt-1 gap-2">
           <div className="flex items-center gap-1.5 min-w-0">
             <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
@@ -200,7 +201,7 @@ export function Leaderboards({
             <div className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse shrink-0" />
             <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#666666] inline-flex items-center gap-1">
               Top Contributors
-              <InfoTooltip text="Ranked by fork-to-star ratio among recently active repos" />
+              <InfoTooltip text="Ranked by total commit count in the selected period" />
             </h3>
           </div>
           <PeriodToggle value={contribPeriod} onChange={setContribPeriod} />
@@ -209,17 +210,20 @@ export function Leaderboards({
           <LeaderboardSkeleton />
         ) : (
           <div className="space-y-0.5">
-            {contributors.map((repo, i) => (
+            {contributors.map((entry, i) => (
               <LeaderboardEntry
-                key={repo.id}
+                key={entry.repo.id}
                 rank={i + 1}
-                repo={repo}
-                metric={formatNumber(repo.forks)}
-                metricLabel="forks"
+                repo={entry.repo}
+                metric={formatNumber(entry.commits)}
+                metricLabel="commits"
                 metricColor="text-sky-400"
-                onClick={() => onSelectRepo(repo)}
+                onClick={() => onSelectRepo(entry.repo)}
               />
             ))}
+            {contributors.length === 0 && (
+              <p className="text-xs text-[#444444] text-center py-4">No data yet</p>
+            )}
           </div>
         )}
       </div>
