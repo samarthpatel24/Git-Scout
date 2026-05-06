@@ -7,6 +7,14 @@
 </p>
 
 <p align="center">
+  <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js" />
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" />
+  <img src="https://img.shields.io/badge/GitHub_API-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub API" />
+  <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" />
+</p>
+
+<p align="center">
   <a href="#features">Features</a> &nbsp;·&nbsp;
   <a href="#tech-stack">Tech Stack</a> &nbsp;·&nbsp;
   <a href="#getting-started">Getting Started</a> &nbsp;·&nbsp;
@@ -27,14 +35,11 @@
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | Next.js 16 (App Router) |
-| Language | TypeScript |
-| Styling | Tailwind CSS |
-| Charts | Recharts |
-| Data Source | GitHub REST API |
-| Deployment | Vercel |
+<p align="center">
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=nextjs,ts,tailwind,github,vercel&theme=dark" alt="Tech Stack" />
+  </a>
+</p>
 
 ## Getting Started
 
