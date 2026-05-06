@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const TUBE_COLORS = ["#FF6B50", "#E55A40", "#FF8B70"];
-const LIGHT_COLORS = ["#FF6B50", "#FF4530", "#E55A40", "#FFB090"];
+const TUBE_COLORS = ["#E55F47", "#CC5039", "#E57D64"];
+const LIGHT_COLORS = ["#E55F47", "#E53E2B", "#CC5039", "#E59E80"];
 
 function randomColors(count: number) {
   return Array.from({ length: count }, () =>
@@ -61,7 +61,7 @@ export function TubesBackground({
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full block"
-        style={{ touchAction: "none" }}
+        style={{ touchAction: "none", opacity: 0.90 }}
       />
       <div className="relative z-10 w-full h-full pointer-events-none">
         {children}

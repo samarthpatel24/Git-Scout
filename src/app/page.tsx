@@ -77,7 +77,7 @@ export default function Home() {
       {/* Hero */}
       <header className="relative h-screen w-full">
         <TubesBackground className="h-screen">
-          <div className="absolute inset-0 bg-black/40 z-[1]" />
+          <div className="absolute inset-0 bg-black/50 z-[1]" />
           <div className="relative z-[2] flex flex-col items-center justify-center h-full pointer-events-auto">
             <div className="text-center drop-shadow-[0_0_40px_rgba(0,0,0,0.8)]">
               <TypewriterHero />
