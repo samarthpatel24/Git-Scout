@@ -2,6 +2,8 @@ import Link from "next/link";
 import { TypewriterHero } from "@/components/TypewriterHero";
 import { FadeIn } from "@/components/FadeIn";
 import { ExplorePreview } from "@/components/ExplorePreview";
+import { TubesBackground } from "@/components/TubesBackground";
+import { HowItWorks } from "@/components/HowItWorks";
 
 const STATS = [
   { value: "15+", label: "Filters" },
@@ -73,34 +75,35 @@ export default function Home() {
       </nav>
 
       {/* Hero */}
-      <header className="relative h-screen w-full flex flex-col items-center justify-center">
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#1a1a1a_0%,_#050505_70%)] opacity-60" />
-        </div>
+      <header className="relative h-screen w-full">
+        <TubesBackground className="h-screen">
+          <div className="absolute inset-0 bg-black/40 z-[1]" />
+          <div className="relative z-[2] flex flex-col items-center justify-center h-full pointer-events-auto">
+            <div className="text-center drop-shadow-[0_0_40px_rgba(0,0,0,0.8)]">
+              <TypewriterHero />
+            </div>
 
-        <div className="relative z-10 text-center">
-          <TypewriterHero />
-        </div>
+            <div className="absolute bottom-12 left-8 md:left-12 flex items-center gap-5">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-[#FF6B50] animate-pulse" />
+                <p className="text-xs md:text-sm font-medium leading-tight text-[#888888]">
+                  Discover trending repos.
+                  <br />
+                  Contribute to open source.
+                </p>
+              </div>
+            </div>
 
-        <div className="absolute bottom-12 left-8 md:left-12 flex items-center gap-5">
-          <div className="flex items-center gap-3">
-            <div className="w-2 h-2 rounded-full bg-[#FF6B50] animate-pulse" />
-            <p className="text-xs md:text-sm font-medium leading-tight text-[#888888]">
-              Discover trending repos.
-              <br />
-              Contribute to open source.
-            </p>
+            <div className="absolute bottom-12 right-8 md:right-12 text-right">
+              <a
+                href="#explore"
+                className="text-white font-medium hover:text-[#FF6B50] transition-colors border-b-2 border-white hover:border-[#FF6B50] pb-1"
+              >
+                Explore repositories →
+              </a>
+            </div>
           </div>
-        </div>
-
-        <div className="absolute bottom-12 right-8 md:right-12 text-right">
-          <a
-            href="#explore"
-            className="text-white font-medium hover:text-[#FF6B50] transition-colors border-b-2 border-white hover:border-[#FF6B50] pb-1"
-          >
-            Explore repositories →
-          </a>
-        </div>
+        </TubesBackground>
       </header>
 
       {/* Stats Strip */}
@@ -240,48 +243,21 @@ export default function Home() {
       </section>
 
       {/* How it Works */}
-      <section id="how" className="py-32 px-6 md:px-12 max-w-7xl mx-auto">
+      <section id="how" className="py-32 px-6 md:px-12 max-w-5xl mx-auto">
         <FadeIn>
-          <div className="flex justify-between items-end mb-20 border-b border-[#222222] pb-10">
-            <h2 className="text-xs font-bold tracking-[0.4em] uppercase text-[#FF6B50]">
-              How It Works
-            </h2>
+          <div className="flex justify-between items-end mb-16 border-b border-[#222222] pb-10">
+            <div>
+              <h2 className="text-xs font-bold tracking-[0.4em] uppercase text-[#FF6B50] mb-4">
+                How It Works
+              </h2>
+              <p className="text-3xl md:text-5xl font-medium tracking-tight text-white">
+                Three steps. Zero friction.
+              </p>
+            </div>
           </div>
         </FadeIn>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-          {[
-            {
-              step: "01",
-              title: "Set your filters",
-              desc: "Pick your language, star range, domain, maturity level. Use presets for quick discovery or build your own filter combo.",
-            },
-            {
-              step: "02",
-              title: "Browse scored repos",
-              desc: "Every repo is scored on health, contribution friendliness, maturity, and trending momentum. No more guessing.",
-            },
-            {
-              step: "03",
-              title: "Start contributing",
-              desc: "Find repos with good first issues, responsive maintainers, and high merge rates. Jump straight to the contribution guide.",
-            },
-          ].map((item, i) => (
-            <FadeIn key={item.step} delay={i * 150}>
-              <div className="group">
-                <div className="text-6xl md:text-7xl font-black text-[#1a1a1a] group-hover:text-[#222222] transition-colors tracking-tighter mb-6">
-                  {item.step}
-                </div>
-                <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-[#FF6B50] transition-colors">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-[#666666] leading-relaxed">
-                  {item.desc}
-                </p>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
+        <HowItWorks />
       </section>
 
       {/* Footer */}
