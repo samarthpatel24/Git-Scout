@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<p align="center">
+  <img src="public/assets/banner.png" alt="GitScout" width="100%" />
+</p>
+
+<p align="center">
+  <strong>Discover trending GitHub repositories with advanced filters, scoring algorithms, and contribution-focused insights.</strong>
+</p>
+
+<p align="center">
+  <a href="#features">Features</a> &nbsp;·&nbsp;
+  <a href="#tech-stack">Tech Stack</a> &nbsp;·&nbsp;
+  <a href="#getting-started">Getting Started</a> &nbsp;·&nbsp;
+  <a href="#roadmap">Roadmap</a>
+</p>
+
+---
+
+## Features
+
+- **15+ Filters** — Language, stars, forks, time period, license, domain, maturity, health, and more
+- **Smart Presets** — Hot Today, Beginner Friendly, Hidden Gems, Production Ready, Weekend Projects
+- **Scoring Algorithms** — Health, contribution friendliness, maturity, and trending scores for every repo
+- **Domain Discovery** — Filter by field: AI/ML, Web Dev, Mobile, DevOps, Security, Data Science, etc.
+- **Contribution Focus** — Surface repos with good first issues, responsive maintainers, and high merge rates
+- **Infinite Scroll** — Browse thousands of repos with automatic pagination
+- **Repo Detail Modal** — Star history charts, score breakdowns, and quick links to contribute
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS |
+| Charts | Recharts |
+| Data Source | GitHub REST API |
+| Deployment | Vercel |
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Clone the repo
+git clone https://github.com/samarthpatel24/gitscout.git
+cd gitscout
+
+# Install dependencies
+npm install
+
+# Add your GitHub token (optional, increases rate limits)
+echo "GITHUB_TOKEN=your_token_here" > .env.local
+
+# Start the dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see it in action.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Roadmap
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- [ ] Proper scoring engine with daily computation pipeline
+- [ ] User accounts with GitHub OAuth
+- [ ] Saved filters and watchlists with email alerts
+- [ ] Community signals (Reddit, Hacker News mentions)
+- [ ] Historical trending snapshots
+- [ ] RSS feeds per language/domain
 
-## Learn More
+## License
 
-To learn more about Next.js, take a look at the following resources:
+MIT
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+<p align="center">
+  Built by <a href="https://github.com/samarthpatel24">Samarth Patel</a>
+</p>
