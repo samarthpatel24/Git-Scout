@@ -30,7 +30,12 @@ function matchesDomain(repo: Repository, domain: string): boolean {
 
 export function filterRepos(repos: Repository[], filters: Filters, serverFiltered = false): Repository[] {
   if (!Array.isArray(repos)) return [];
-  let result = [...repos];
+  const seen = new Set<number>();
+  let result = repos.filter((r) => {
+    if (seen.has(r.id)) return false;
+    seen.add(r.id);
+    return true;
+  });
 
   if (filters.search) {
     const q = filters.search.toLowerCase();

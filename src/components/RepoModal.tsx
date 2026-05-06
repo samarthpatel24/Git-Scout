@@ -97,10 +97,17 @@ export function RepoModal({
 
         {/* Header */}
         <div className="p-8 pb-0">
-          <div className="flex items-center gap-2.5 mb-2">
-            <span className="text-sm text-[#666666]">{owner}</span>
-            <span className="text-[#333333]">/</span>
-            <span className="text-2xl font-bold text-white">{name}</span>
+          <div className="flex items-baseline gap-3 mb-3">
+            <span className="text-base text-[#666666]">{owner}</span>
+            <span className="text-[#333333] text-lg">/</span>
+            <a
+              href={`https://github.com/${repo.full_name}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-4xl font-extrabold text-white hover:text-[#FF6B50] transition-colors tracking-tight"
+            >
+              {name}
+            </a>
           </div>
           <p className="text-sm text-[#888888] leading-relaxed max-w-xl">
             {repo.description}
@@ -243,10 +250,8 @@ export function RepoModal({
                 </p>
               </div>
               <div>
-                <span className="text-[#555555]">Has CONTRIBUTING.md</span>
-                <p className={`font-medium ${repo.has_contributing ? "text-emerald-400" : "text-[#666666]"}`}>
-                  {repo.has_contributing ? "Yes" : "No"}
-                </p>
+                <span className="text-[#555555]">Open Issues</span>
+                <p className="text-white font-medium">{repo.open_issues}</p>
               </div>
             </div>
           </div>
@@ -262,16 +267,14 @@ export function RepoModal({
           >
             View on GitHub
           </a>
-          {repo.has_contributing && (
-            <a
-              href={`https://github.com/${repo.full_name}/blob/main/CONTRIBUTING.md`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 py-3.5 bg-[#1a1a1a] hover:bg-[#222222] text-white font-bold text-xs tracking-wide uppercase rounded-xl transition-all text-center border border-[#333333]"
-            >
-              Contribution Guide
-            </a>
-          )}
+          <a
+            href={`https://github.com/${repo.full_name}/issues`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 py-3.5 bg-[#1a1a1a] hover:bg-[#222222] text-white font-bold text-xs tracking-wide uppercase rounded-xl transition-all text-center border border-[#333333]"
+          >
+            View Issues
+          </a>
         </div>
       </div>
     </div>,

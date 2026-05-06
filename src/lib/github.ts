@@ -56,7 +56,7 @@ export async function searchTrendingRepos(params: SearchParams): Promise<{ items
   } else if (params.starsMax) {
     parts.push(`stars:<=${params.starsMax}`);
   } else {
-    parts.push("stars:>=100");
+    parts.push("stars:100..50000");
   }
 
   if (params.license) {
@@ -64,7 +64,7 @@ export async function searchTrendingRepos(params: SearchParams): Promise<{ items
   }
 
   const q = parts.join(" ");
-  const sort = params.sort === "forks" ? "forks" : "stars";
+  const sort = params.sort === "forks" ? "forks" : params.sort === "updated" ? "updated" : "stars";
   const page = params.page || 1;
   const perPage = params.perPage || 30;
 
@@ -267,7 +267,7 @@ function mapRepo(item: any, idx: number, page: number, perPage: number): Reposit
     maturity_score: 0,
     trending_score: 0,
     good_first_issue_count: Math.floor(openIssues * 0.1),
-    has_contributing: stars > 1000,
+    has_contributing: false,
     pr_merge_rate: 0,
     avg_issue_response_hours: 0,
     star_history: generateStarHistory(stars, starsGained),

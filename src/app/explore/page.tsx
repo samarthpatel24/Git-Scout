@@ -9,6 +9,7 @@ import { FilterSidebar } from "@/components/FilterSidebar";
 import { FilterPresets } from "@/components/FilterPresets";
 import { RepoCard } from "@/components/RepoCard";
 import { RepoModal } from "@/components/RepoModal";
+import { Leaderboards } from "@/components/Leaderboards";
 
 const MAX_PAGES = 33;
 
@@ -23,31 +24,33 @@ export default function ExplorePage() {
   const [totalCount, setTotalCount] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const loaderRef = useRef<HTMLDivElement>(null);
+  const didMount = useRef(false);
 
-  const buildParams = useCallback((f: Filters, p: number) => {
+  const buildParams = useCallback((f: Filters, p: number, initialLoad = false) => {
     const params = new URLSearchParams();
     if (f.language) params.set("language", f.language);
     params.set("period", f.timePeriod);
     if (f.starsMin) params.set("starsMin", String(f.starsMin));
     if (f.starsMax) params.set("starsMax", String(f.starsMax));
     if (f.license) params.set("license", f.license);
-    params.set("sort", f.sortBy === "forks" ? "forks" : "stars");
-    params.set("perPage", "30");
+    params.set("sort", f.sortBy === "forks" ? "forks" : f.sortBy === "stars" ? "stars" : "updated");
+    params.set("perPage", initialLoad ? "50" : "30");
     params.set("page", String(p));
     return params;
   }, []);
 
-  const fetchRepos = useCallback(async (f: Filters) => {
+  const fetchRepos = useCallback(async (f: Filters, initialLoad = false) => {
     setLoading(true);
     setPage(1);
     setHasMore(true);
+    const perPage = initialLoad ? 50 : 30;
     try {
-      const res = await fetch(`/api/repos?${buildParams(f, 1).toString()}`);
+      const res = await fetch(`/api/repos?${buildParams(f, 1, initialLoad).toString()}`);
       if (!res.ok) throw new Error("API error");
       const data = await res.json();
       setRepos(data.items || []);
       setTotalCount(data.totalCount || 0);
-      setHasMore((data.items || []).length >= 30);
+      setHasMore((data.items || []).length >= perPage);
     } catch {
       setRepos([]);
       setTotalCount(0);
@@ -65,7 +68,11 @@ export default function ExplorePage() {
       if (!res.ok) throw new Error("API error");
       const data = await res.json();
       const newItems = data.items || [];
-      setRepos((prev) => [...prev, ...newItems]);
+      setRepos((prev) => {
+        const existingIds = new Set(prev.map((r) => r.id));
+        const unique = newItems.filter((r: Repository) => !existingIds.has(r.id));
+        return [...prev, ...unique];
+      });
       setPage(nextPage);
       setHasMore(newItems.length >= 30 && nextPage < MAX_PAGES);
     } catch {
@@ -76,6 +83,11 @@ export default function ExplorePage() {
   }, [loadingMore, hasMore, page, filters, buildParams]);
 
   useEffect(() => {
+    fetchRepos(filters, true);
+  }, []);
+
+  useEffect(() => {
+    if (!didMount.current) { didMount.current = true; return; }
     fetchRepos(filters);
   }, [filters.language, filters.timePeriod, filters.starsMin, filters.starsMax, filters.license, filters.sortBy, fetchRepos]);
 
@@ -112,7 +124,7 @@ export default function ExplorePage() {
   return (
     <div className="flex flex-col min-h-screen bg-[#050505]">
       <header className="sticky top-0 z-40 border-b border-[#1a1a1a] bg-[#050505]/80 backdrop-blur-xl">
-        <div className="max-w-[1400px] mx-auto px-6 py-4">
+        <div className="max-w-[1600px] mx-auto px-6 py-4">
           <div className="flex items-center justify-between gap-6">
             <Link href="/" className="flex items-center group gap-3">
               <div className="w-8 h-8 bg-white rounded flex items-center justify-center text-black font-extrabold text-lg transition-transform group-hover:rotate-12">
@@ -142,7 +154,7 @@ export default function ExplorePage() {
         </div>
       </header>
 
-      <div className="flex flex-1 max-w-[1400px] mx-auto w-full px-6 py-8 gap-8">
+      <div className="flex flex-1 max-w-[1600px] mx-auto w-full px-6 py-8 gap-8">
         <FilterSidebar filters={filters} onChange={setFilters} />
 
         <main className="flex-1 min-w-0">
@@ -207,6 +219,8 @@ export default function ExplorePage() {
             )}
           </div>
         </main>
+
+        <Leaderboards repos={filteredRepos} onSelectRepo={setSelectedRepo} />
       </div>
 
       {selectedRepo && (
