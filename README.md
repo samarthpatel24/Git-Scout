@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/assets/banner gif.gif" alt="GitScout" width="100%" />
+  <img src="public/assets/banner.png" alt="GitScout" width="100%" />
 </p>
 
 <p align="center">
