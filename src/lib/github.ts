@@ -49,14 +49,11 @@ export async function searchTrendingRepos(params: SearchParams): Promise<{ items
     parts.push(`language:${params.language}`);
   }
 
-  if (params.starsMin && params.starsMax) {
-    parts.push(`stars:${params.starsMin}..${params.starsMax}`);
-  } else if (params.starsMin) {
-    parts.push(`stars:>=${params.starsMin}`);
-  } else if (params.starsMax) {
-    parts.push(`stars:<=${params.starsMax}`);
+  const minStars = params.starsMin ?? 100;
+  if (params.starsMax && params.starsMax > 0) {
+    parts.push(`stars:${minStars}..${params.starsMax}`);
   } else {
-    parts.push("stars:100..50000");
+    parts.push(`stars:>=${minStars}`);
   }
 
   if (params.license) {

@@ -161,23 +161,8 @@ export const FILTER_PRESETS: FilterPreset[] = [
     filters: { beginnerFriendly: true, sortBy: "friendliness_score" },
   },
   {
-    name: "Hidden Gems",
-    description: "Rising from obscurity — undiscovered projects",
-    filters: { risingFromObscurity: true, sortBy: "trending_score" },
-  },
-  {
-    name: "Production Ready",
-    description: "Mature, well-maintained projects",
-    filters: { maturity: "production", health: "highly_active" },
-  },
-  {
-    name: "Weekend Projects",
-    description: "Small repos perfect for a quick contribution",
-    filters: {
-      hasGoodFirstIssues: true,
-      starsMin: 50,
-      starsMax: 5000,
-      sortBy: "friendliness_score",
-    },
+    name: "AI / ML Trending",
+    description: "Trending repositories in AI and Machine Learning",
+    filters: { domain: "AI / Machine Learning", sortBy: "stars_gained" },
   },
 ];

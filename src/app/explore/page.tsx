@@ -155,7 +155,7 @@ export default function ExplorePage() {
       </header>
 
       <div className="flex flex-1 max-w-[1600px] mx-auto w-full px-6 py-8 gap-8">
-        <FilterSidebar filters={filters} onChange={setFilters} />
+        <FilterSidebar filters={filters} onChange={(f) => { setActivePreset(""); setFilters(f); }} />
 
         <main className="flex-1 min-w-0">
           <div className="flex items-center gap-3 mb-6">

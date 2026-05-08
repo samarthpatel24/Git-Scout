@@ -47,26 +47,24 @@ export function filterRepos(repos: Repository[], filters: Filters, serverFiltere
     );
   }
 
-  if (!serverFiltered) {
-    if (filters.language) {
-      result = result.filter(
-        (r) => r.language?.toLowerCase() === filters.language.toLowerCase()
-      );
-    }
+  if (!serverFiltered && filters.language) {
+    result = result.filter(
+      (r) => r.language?.toLowerCase() === filters.language.toLowerCase()
+    );
+  }
 
-    if (filters.starsMin > 0) {
-      result = result.filter((r) => r.stars >= filters.starsMin);
-    }
+  if (filters.starsMin > 0) {
+    result = result.filter((r) => r.stars >= filters.starsMin);
+  }
 
-    if (filters.starsMax > 0) {
-      result = result.filter((r) => r.stars <= filters.starsMax);
-    }
+  if (filters.starsMax > 0) {
+    result = result.filter((r) => r.stars <= filters.starsMax);
+  }
 
-    if (filters.license) {
-      result = result.filter(
-        (r) => r.license?.toLowerCase() === filters.license.toLowerCase()
-      );
-    }
+  if (!serverFiltered && filters.license) {
+    result = result.filter(
+      (r) => r.license?.toLowerCase() === filters.license.toLowerCase()
+    );
   }
 
   if (filters.forksMin > 0) {
