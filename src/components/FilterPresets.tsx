@@ -9,7 +9,18 @@ interface FilterPresetsProps {
 
 export function FilterPresets({ activePreset, onSelect }: FilterPresetsProps) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex items-center gap-2">
+      <button
+        className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 ${
+          activePreset === ""
+            ? "bg-white text-black"
+            : "bg-[#1a1a1a] text-[#888888] border border-[#333333] hover:border-[#555555] hover:text-white"
+        }`}
+        onClick={() => onSelect("", DEFAULT_FILTERS)}
+      >
+        Explore
+      </button>
+      <div className="w-px h-5 bg-[#222222] mx-1" />
       {FILTER_PRESETS.map((preset) => {
         const isActive = activePreset === preset.name;
         return (
